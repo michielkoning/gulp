@@ -3,41 +3,45 @@ var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
 var autoprefixer = require('gulp-autoprefixer');
 var rename = require('gulp-rename');
-var minifyCSS = require('gulp-minify-css');
+var cleanCSS = require('gulp-clean-css');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 
 // SASS
 gulp.task('sass', function () {
   return gulp.src([
-      'dev/pages/pdp.scss',
-      'dev/pages/pdp-mobile.scss',
-      'dev/pages/pdp-debug.scss'
+      'sass/style.scss'
     ])
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false,
+      flexbox: 'no-2009',
     }))
 
-    // .pipe(minifyCSS())
-    .pipe(
-      rename(
-        {
-          suffix: '.min',
-        }
-      )
-    )
-    .pipe(gulp.dest('css'))
+    .pipe(cleanCSS({
+        keepSpecialComments: false,
+      }
+    ))
+    .pipe(gulp.dest('../css'))
     .pipe(browserSync.stream());
 });
 
+gulp.task('scripts', function() {
+  return gulp.src(['scripts/_*.js', 'scripts/*.js'])
+    .pipe(concat('functions.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('../scripts'));
+});
+
 // default gulp task
-gulp.task('default', ['sass']);
+gulp.task('default', ['sass', 'scripts']);
 
 // gulp watch taks
 gulp.task('watch', function () {
 
   browserSync.init({
-    proxy: 'localhost/pdp_frontend',
+    proxy: 'localhost/kompas/www',
     port: 8080,
     open: false,
     notify: false,
@@ -46,17 +50,14 @@ gulp.task('watch', function () {
 
   // Watch PHP files and Sass files
   gulp.watch([
-    '*.php',
-    'includes/*.php',
-    'dev/**/*.scss',
-    'js/jclasses/dev/**/*.js',
+    'sass/*.scss',
+    'sass/**/*.scss',
+    'scripts/*.js',
+    '../../*.php',
     ],
     [
       'sass',
+      'scripts',
     ]
   ).on('change', browserSync.reload);
-
-  // Watch JS files and Sass files
-  // gulp.watch(['../../../../../../../Users/dbraakman/Documents/webshop/application/webshop/j2ee-apps/frontend.ear/frontend.war/static/js/jclasses/dev/**/*.js'], ['js']);
-  // gulp.watch(['../../../../../../../Users/dbraakman/Documents/Development/wsp-rnwy-productpage/src/main/resources/wsp_rnwy_productpage/components/productpage/content/**/*.template'], ['js']);
 });

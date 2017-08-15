@@ -54,7 +54,7 @@ gulp.task('generate-favicons', function (done) {
         pictureAspect: 'noChange',
         themeColor: config.theme.color,
         manifest: {
-          name: 'Haarlem bij de les',
+          name: config.theme.name,
           display: 'browser',
           orientation: 'notSet',
           onConflict: 'override',

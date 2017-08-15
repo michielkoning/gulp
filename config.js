@@ -38,13 +38,18 @@ module.exports = {
     dest: `${assets}scripts`,
   },
   sass: {
-    src: `${src}sass/**/*.s+(a|c)ss`,
+    src: `${src}sass/style.scss`,
     dest: './',
     options: {
       noCache: true,
       compass: false,
       bundleExec: true,
       sourcemap: true,
+    },
+    critical: {
+      src: `${src}sass/critical.scss`,
+      template: `${src}templates/critical.php`,
+      dest: `${assets}css`,
     },
   },
   autoprefixer: {
@@ -61,6 +66,7 @@ module.exports = {
     dest: `${assets}images`,
   },
   svg: {
+    template: `${src}templates/icons.php`,
     icons: [
       `${srcIcons}*.svg`,
       `${src}images/logo.svg`,
@@ -72,7 +78,7 @@ module.exports = {
     dest: `${src}images/favicons/`,
     path: `${assetsUrl}images/favicons/`,
     colorWindows: siteDetails.color,
-    templateSrc: `${src}favicons/template/favicons.php`,
+    templateSrc: `${src}templates/favicons.php`,
     templateDest: './partials',
   },
   watch: {

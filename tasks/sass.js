@@ -12,6 +12,7 @@ const notify = require('gulp-notify');
 const config = require('../config');
 const combineMq = require('gulp-combine-mq');
 const banner = require('gulp-banner');
+const inject = require('gulp-inject');
 
 const comment = `/*
 Theme Name: <%= config.theme.name %>
@@ -26,21 +27,43 @@ License: <%= config.theme.license %>
 const isProduction = !!util.env.production;
 
 gulp.task('sass', () => {
+  console.log(isProduction);
   return gulp.src(config.sass.src)
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', (err) => {
       notify().write(err);
     }))
-    .pipe(!isProduction ? sourcemaps.write() : util.noop())
     .pipe(autoprefixer(config.autoprefixer))
-
     .pipe(isProduction ? combineMq() : util.noop())
     .pipe(isProduction ? csso() : util.noop())
     .pipe(banner(comment, {
       config,
     }))
+    .pipe(!isProduction ? sourcemaps.write() : util.noop())
     .pipe(gulp.dest(config.sass.dest))
     .pipe(size())
     .pipe(notify({ message: 'Styles task complete' }));
+});
+
+gulp.task('critical', () => {
+  criticalCSS = gulp.src(config.sass.critical.src)
+    .pipe(plumber())
+    .pipe(sass().on('error', (err) => {
+      notify().write(err);
+    }))
+    .pipe(autoprefixer(config.autoprefixer))
+    .pipe(combineMq())
+    .pipe(csso())
+    .pipe(gulp.dest(config.sass.critical.dest));
+
+  return gulp.src(config.sass.critical.template)
+    .pipe(inject(gulp.src(config.sass.critical.dest + '/critical.css'), {
+        removeTags: true,
+        transform: function(filePath, file) {
+          return file.contents.toString();
+        }
+      }))
+    .pipe(gulp.dest('./partials'));
+
 });

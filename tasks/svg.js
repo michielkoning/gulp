@@ -26,7 +26,7 @@ gulp.task('svg', function() {
     inlineSvg: true
   }));
 
-  return gulp.src('./src/icons/template/icons.php').pipe(inject(svgs, {
+  return gulp.src(config.template).pipe(inject(svgs, {
     removeTags: true,
     transform: function(filePath, file) {
       return file.contents.toString();

@@ -18,6 +18,7 @@ module.exports = {
         `${assets}scripts/**/*.js`,
         './style.css',
         './**/*.php',
+        './**/*.twig',
       ],
     },
   },

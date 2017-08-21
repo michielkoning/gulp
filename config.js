@@ -1,4 +1,4 @@
-const theme = require('./../theme.json');
+const theme = require('./theme.json');
 const pkg = require('./../package.json');
 const siteDetails = Object.assign(theme, pkg);
 

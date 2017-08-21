@@ -14,30 +14,34 @@ const isProduction = !!util.env.production;
 gulp.task('scripts', function() {
    return gulp.src(config.src)
       .pipe(plumber())
-      .pipe(webpack({
-          entry: config.webpackEntry,
-           output: {
-             filename: '[name].js',
-           },
-           devtool: '#inline-source-map',
-           module: {
-              loaders: [
-                 {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    loader: 'babel',
-                    query: {
-                       presets: ['es2015'],
-                       compact: false,
-                    }
-                 }
-              ]
-           }
-        }
-      ))
+      // .pipe(webpack({
+      //     entry: config.webpackEntry,
+      //      output: {
+      //        filename: '[name].js',
+      //      },
+      //      devtool: '#inline-source-map',
+      //      module: {
+      //         loaders: [
+      //            {
+      //               test: /\.js$/,
+      //               exclude: [
+      //                 'gulpfile.js',
+      //                 /gulp/,
+      //                 /node_modules/,
+      //               ],
+      //               loader: 'babel',
+      //               query: {
+      //                  presets: ['es2015'],
+      //                  compact: false,
+      //               }
+      //            }
+      //         ]
+      //      }
+      //   }
+      // ))
       .pipe(!isProduction ? sourcemaps.init({ loadMaps: true }) : util.noop())
       .pipe(isProduction ? uglify() : util.noop())
       .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./assets/scripts'))
+      .pipe(gulp.dest(config.dest))
       .pipe(size());
 });

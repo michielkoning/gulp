@@ -1,11 +1,17 @@
-const theme = require('./theme.json');
-const pkg = require('../package.json');
+const theme = require('./../theme.json');
+const pkg = require('./../package.json');
 const siteDetails = Object.assign(theme, pkg);
 
-const src = './src/';
-const assets = './assets/';
-const srcIcons = `${src}icons/`;
+const src = './';
+const root = './../';
+const assets = `${root}assets/`;
 const assetsUrl = `${theme.liveUrl}wp-content/themes/${theme.theme}/assets/`;
+
+const icons = siteDetails.defaultIcons.map(function(icon) {
+  return `${src}icons/defaults/${icon}.svg`;
+});
+icons.push(`${src}icons/theme/*.svg`);
+icons.push( `${src}images/logo.svg`);
 
 module.exports = {
   theme: siteDetails,
@@ -16,9 +22,9 @@ module.exports = {
       port: 9999,
       files: [
         `${assets}scripts/**/*.js`,
-        './style.css',
-        './**/*.php',
-        './**/*.twig',
+        `${root}style.css`,
+        `${root}**/*.php`,
+        `${root}views/**/*.twig`,
       ],
     },
   },
@@ -27,20 +33,16 @@ module.exports = {
   },
   scripts: {
     src: [
-      `${src}scripts/functions.js`,
-      `${src}scripts/contact.js`,
-      `${src}scripts/sticky-nav.js`,
+      `${src}scripts/theme/functions.js`,
     ],
     webpackEntry: {
-      functions: `${src}scripts/functions.js`,
-      contact: `${src}scripts/contact.js`,
-      'sticky-nav': `${src}scripts/sticky-nav.js`,
+      functions: `${src}scripts/theme/functions.js`,
     },
     dest: `${assets}scripts`,
   },
   sass: {
     src: `${src}sass/style.scss`,
-    dest: './',
+    dest: root,
     options: {
       noCache: true,
       compass: false,
@@ -52,11 +54,11 @@ module.exports = {
       template: `${src}templates/critical.php`,
       dest: `${assets}css`,
     },
-  },
-  autoprefixer: {
-    browsers: ['last 2 versions'],
-    cascade: false,
-    flexbox: 'no-2009',
+    autoprefixer: {
+      browsers: ['last 2 versions'],
+      cascade: false,
+      flexbox: 'no-2009',
+    },
   },
   sourcemaps: {
     includeContent: false,
@@ -67,25 +69,23 @@ module.exports = {
     dest: `${assets}images`,
   },
   svg: {
-    template: `${src}templates/icons.php`,
-    icons: [
-      `${srcIcons}*.svg`,
-      `${src}images/logo.svg`,
-    ],
+    template: `${src}templates/icons.html`,
+    dest: `${root}views/partials/`,
+    icons,
   },
   favicons: {
-    icon: `${src}images/logo.svg`,
+    icon: `${src}favicons/favicon.png`,
     jsonFile: `${src}favicons/faviconData.json`,
-    dest: `${src}images/favicons/`,
-    path: `${assetsUrl}images/favicons/`,
+    dest: `${assets}favicons/`,
+    path: `${assetsUrl}favicons/`,
     colorWindows: siteDetails.color,
-    templateSrc: `${src}templates/favicons.php`,
-    templateDest: './partials',
+    templateSrc: `${src}templates/favicons.html`,
+    templateDest: `${root}views/partials/`,
   },
   watch: {
     scripts: `${src}scripts/**/*.js`,
     sass: `${src}sass/**/*.s+(a|c)ss`,
-    svg: `${srcIcons}/**/*.svg`,
+    svg: `${src}icons/theme/*.svg`,
   },
   manifest: {
     lang: 'nl',

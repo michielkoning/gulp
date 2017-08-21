@@ -31,5 +31,9 @@ gulp.task('svg', function() {
     transform: function(filePath, file) {
       return file.contents.toString();
     }
-  })).pipe(gulp.dest('./partials'));
+  }))
+  .pipe(rename(function (path){
+    path.extname = '.twig';
+  }))
+  .pipe(gulp.dest(config.dest));
 });

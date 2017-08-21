@@ -3,6 +3,7 @@ const fs = require('fs');
 const realFavicon = require('gulp-real-favicon');
 const config = require('../config');
 const runSequence = require('run-sequence');
+const rename = require('gulp-rename');
 // Generate the icons. This task takes a few seconds to complete.
 // You should run it at least once to create the icons. Then,
 // you should run it whenever RealFaviconGenerator updates its
@@ -87,6 +88,9 @@ gulp.task('generate-favicons', function (done) {
 gulp.task('inject-favicon-markups', function() {
   return gulp.src(config.favicons.templateSrc)
     .pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(config.favicons.jsonFile)).favicon.html_code))
+    .pipe(rename(function (path){
+      path.extname = '.twig';
+    }))
     .pipe(gulp.dest(config.favicons.templateDest));
 });
 

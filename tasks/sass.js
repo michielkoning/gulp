@@ -9,10 +9,10 @@ const util = require('gulp-util');
 const csso = require('gulp-csso');
 const size = require('gulp-size');
 const notify = require('gulp-notify');
-const config = require('../config');
 const combineMq = require('gulp-combine-mq');
 const banner = require('gulp-banner');
 const inject = require('gulp-inject');
+const config = require('../config');
 
 const comment = `/*
 Theme Name: <%= config.theme.name %>
@@ -34,7 +34,7 @@ gulp.task('sass', () => {
     .pipe(sass().on('error', (err) => {
       notify().write(err);
     }))
-    .pipe(autoprefixer(config.autoprefixer))
+    .pipe(autoprefixer(config.sass.autoprefixer))
     .pipe(isProduction ? combineMq() : util.noop())
     .pipe(isProduction ? csso() : util.noop())
     .pipe(banner(comment, {

@@ -45,25 +45,3 @@ gulp.task('sass', () => {
     .pipe(size())
     .pipe(notify({ message: 'Styles task complete' }));
 });
-
-gulp.task('critical', () => {
-  criticalCSS = gulp.src(config.sass.critical.src)
-    .pipe(plumber())
-    .pipe(sass().on('error', (err) => {
-      notify().write(err);
-    }))
-    .pipe(autoprefixer(config.autoprefixer))
-    .pipe(combineMq())
-    .pipe(csso())
-    .pipe(gulp.dest(config.sass.critical.dest));
-
-  return gulp.src(config.sass.critical.template)
-    .pipe(inject(gulp.src(config.sass.critical.dest + '/critical.css'), {
-        removeTags: true,
-        transform: function(filePath, file) {
-          return file.contents.toString();
-        }
-      }))
-    .pipe(gulp.dest('./partials'));
-
-});

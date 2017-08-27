@@ -9,9 +9,11 @@ gulp.task('build', function(callback) {
     'delete',
     [
       'sass',
+      'critical',
       'svg',
       'scripts',
       'images',
+      'fonts',
     ],
     callback,
   );

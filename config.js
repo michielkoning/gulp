@@ -34,9 +34,13 @@ module.exports = {
   scripts: {
     src: [
       `${src}scripts/theme/functions.js`,
+      `${src}scripts/theme/contact.js`,
+      `${src}scripts/theme/sticky-nav.js`,
     ],
     webpackEntry: {
       functions: `${src}scripts/theme/functions.js`,
+      contact: `${src}scripts/theme/contact.js`,
+      'sticky-nav': `${src}scripts/theme/sticky-nav.js`,
     },
     dest: `${assets}scripts`,
   },
@@ -49,16 +53,17 @@ module.exports = {
       bundleExec: true,
       sourcemap: true,
     },
-    critical: {
-      src: `${src}sass/critical.scss`,
-      template: `${src}templates/critical.php`,
-      dest: `${assets}css`,
-    },
-    autoprefixer: {
-      browsers: ['last 2 versions'],
-      cascade: false,
-      flexbox: 'no-2009',
-    },
+  },
+  autoprefixer: {
+    browsers: ['last 2 versions'],
+    cascade: false,
+    flexbox: 'no-2009',
+  },
+  critical: {
+    src: `${src}sass/critical.scss`,
+    template: `${src}templates/critical.html`,
+    temp: `${src}temp/`,
+    dest: `${root}views/partials/`,
   },
   sourcemaps: {
     includeContent: false,
@@ -67,6 +72,10 @@ module.exports = {
   images: {
     src: `${src}images/**/*`,
     dest: `${assets}images`,
+  },
+  fonts: {
+    src: `${src}fonts/**/*`,
+    dest: `${assets}fonts`,
   },
   svg: {
     template: `${src}templates/icons.html`,

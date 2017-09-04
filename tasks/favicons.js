@@ -4,6 +4,8 @@ const realFavicon = require('gulp-real-favicon');
 const config = require('../config');
 const runSequence = require('run-sequence');
 const rename = require('gulp-rename');
+const del = require('del');
+
 // Generate the icons. This task takes a few seconds to complete.
 // You should run it at least once to create the icons. Then,
 // you should run it whenever RealFaviconGenerator updates its
@@ -11,18 +13,28 @@ const rename = require('gulp-rename');
 
 gulp.task('favicons', function(callback) {
   runSequence(
-    [
-      'generate-favicons',
-      'inject-favicon-markups',
-    ],
+    'delete-favicons',
+    'generate-favicons',
+    'move-favicons',
+    'inject-favicon-markups',
+    'generate-manifest',
     callback,
   );
+});
+
+gulp.task('delete-favicons', () =>  {
+  return del([
+      config.favicons.temp,
+      config.favicons.dest
+    ], {
+    force: true,
+  });
 });
 
 gulp.task('generate-favicons', function (done) {
   realFavicon.generateFavicon({
     masterPicture: config.favicons.icon,
-    dest: config.favicons.dest,
+    dest: config.favicons.temp,
     iconsPath: config.favicons.path,
     design: {
       ios: {
@@ -81,6 +93,47 @@ gulp.task('generate-favicons', function (done) {
     done();
   });
 });
+
+gulp.task('move-favicons', () => {
+  return gulp.src(config.favicons.files)
+    .pipe(gulp.dest(config.favicons.dest));
+});
+
+gulp.task('generate-manifest', function(){
+
+  const manifest = {
+    lang: config.theme.lang,
+    short_name: config.theme.shortName,
+    name: config.theme.name,
+    description: config.theme.description,
+    start_url: '/',
+    display: 'browser',
+    developer: config.theme.author,
+    manifest_version: "1",
+    version: "1",
+    background_color: '#f9f9f9',
+    theme_color: config.theme.color,
+    icons: [
+    ],
+  };
+
+  const icons = ['144', '192', '512'];
+
+  function createIcon(size) {
+    manifest.icons.push({
+      src: `${config.favicons.path}android-chrome-${size}x${size}.png`,
+      sizes: `${size}x${size}`,
+      type: 'image/png',
+    });
+  }
+
+  icons.forEach(icon => createIcon(icon));
+
+  dest = `${config.favicons.dest}manifest.json`;
+
+  fs.writeFileSync(dest, JSON.stringify(manifest));
+});
+
 
 // Inject the favicon markups in your HTML pages. You should run
 // this task whenever you modify a page. You can keep this task

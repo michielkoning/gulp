@@ -26,7 +26,6 @@ gulp.task('critical-css', () =>  {
   return gulp.src(config.critical.src)
     .pipe(plumber())
     .pipe(sass().on('error', (err) => {
-      notify().write(err);
     }))
     .pipe(autoprefixer(config.autoprefixer))
     .pipe(csso())

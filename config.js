@@ -4,8 +4,9 @@ const siteDetails = Object.assign(theme, pkg);
 
 const src = './';
 const root = './../';
+const temp = `${src}temp/`;
 const assets = `${root}assets/`;
-const assetsUrl = `${theme.liveUrl}wp-content/themes/${theme.theme}/assets/`;
+const assetsUrl = `/wp-content/themes/${theme.theme}/assets/`;
 
 const icons = siteDetails.defaultIcons.map(function(icon) {
   return `${src}icons/defaults/${icon}.svg`;
@@ -62,7 +63,7 @@ module.exports = {
   critical: {
     src: `${src}sass/critical.scss`,
     template: `${src}templates/critical.html`,
-    temp: `${src}temp/`,
+    temp,
     dest: `${root}views/partials/`,
   },
   sourcemaps: {
@@ -83,13 +84,15 @@ module.exports = {
     icons,
   },
   favicons: {
-    icon: `${src}favicons/favicon.png`,
-    jsonFile: `${src}favicons/faviconData.json`,
+    icon: `${src}favicons/favicon.svg`,
+    jsonFile: `${temp}favicons/faviconData.json`,
+    temp: `${temp}favicons/`,
     dest: `${assets}favicons/`,
     path: `${assetsUrl}favicons/`,
     colorWindows: siteDetails.color,
     templateSrc: `${src}templates/favicons.html`,
     templateDest: `${root}views/partials/`,
+    files: `${temp}favicons/*.+(png|svg|ico|xml)`,
   },
   watch: {
     scripts: `${src}scripts/**/*.js`,

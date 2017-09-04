@@ -1,14 +1,14 @@
 const gulp = require('gulp');
 const fs = require('fs');
-const config = require('../config').manifest;
+const config = require('../config');
 
-gulp.task('manifest', function(){
+gulp.task('manifaaest', function(){
 
   const manifest = {
     lang: config.lang,
-    short_name: config.shortName,
-    name: config.name,
-    description: config.description,
+    short_name: config.theme.shortName,
+    name: config.theme.name,
+    description: config.theme.description,
     start_url: '/',
     display: 'browser',
     background_color: '#f9f9f9',
@@ -17,7 +17,7 @@ gulp.task('manifest', function(){
     ],
   };
 
-  const icons = ['144', '192'];
+  const icons = ['144', '192', '512'];
 
   function createIcon(size) {
     manifest.icons.push({
@@ -29,5 +29,7 @@ gulp.task('manifest', function(){
 
   icons.forEach(icon => createIcon(icon));
 
-  fs.writeFileSync('./assets/manifest.json', JSON.stringify(manifest));
+  dest = `${config.favicons.dest}manifest.json`;
+
+  fs.writeFileSync(dest, JSON.stringify(manifest));
 });

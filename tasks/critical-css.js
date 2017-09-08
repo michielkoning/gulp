@@ -15,7 +15,7 @@ const runSequence = require('run-sequence');
 
 gulp.task('critical-delete', () =>  {
   return del([
-      config.critical.temp,
+      `${config.critical.temp}*.(js|css)`,
       config.critical.dest + 'critical.twig',
     ], {
     force: true

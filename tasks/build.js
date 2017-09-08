@@ -14,14 +14,12 @@ gulp.task('build', function(callback) {
       'scripts',
       'images',
       'fonts',
-      'favicons-move',
     ],
     [
-      'delete-favicons',
-      'move-favicons',
-      'inject-favicon-markups',
-      'generate-manifest',
+     'move-favicons',
+     'inject-favicon-markups',
     ],
+    'generate-manifest',
     callback,
   );
 });

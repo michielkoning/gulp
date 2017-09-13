@@ -13,6 +13,7 @@ const icons = siteDetails.defaultIcons.map(function(icon) {
 });
 icons.push(`${src}icons/theme/*.svg`);
 icons.push( `${src}images/logo.svg`);
+icons.push( `${src}images/logo-small.svg`);
 
 module.exports = {
   theme: siteDetails,

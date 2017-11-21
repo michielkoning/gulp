@@ -107,7 +107,7 @@ gulp.task('generate-manifest', function(){
     name: config.theme.name,
     description: config.theme.description,
     start_url: '/',
-    display: 'browser',
+    display: 'standalone',
     developer: config.theme.author,
     manifest_version: "1",
     version: "1",

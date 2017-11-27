@@ -20,23 +20,25 @@ gulp.task('scripts', function() {
              filename: '[name].js',
            },
            devtool: '#inline-source-map',
-           module: {
-              loaders: [
-                 {
-                    test: /\.js$/,
-                    exclude: [
-                      'gulpfile.js',
-                      /gulp/,
-                      /node_modules/,
-                    ],
-                    loader: 'babel',
-                    query: {
-                       presets: ['es2015'],
-                       compact: false,
+            module: {
+              rules: [
+                {
+                  test: /\.js$/,
+                  exclude: [
+                    'gulpfile.js',
+                    /gulp/,
+                    /node_modules/,
+                    /bower_components/,
+                  ],
+                  use: {
+                    loader: 'babel-loader',
+                    options: {
+                      presets: ['es2015']
                     }
-                 }
+                  }
+                }
               ]
-           }
+            }
         }
       ))
       .pipe(!isProduction ? sourcemaps.init({ loadMaps: true }) : util.noop())

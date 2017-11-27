@@ -35,7 +35,7 @@ gulp.task('sass', () => {
       notify().write(err);
     }))
     .pipe(autoprefixer(config.sass.autoprefixer))
-    .pipe(isProduction ? combineMq() : util.noop())
+    //.pipe(isProduction ? combineMq() : util.noop())
     .pipe(isProduction ? csso() : util.noop())
     .pipe(banner(comment, {
       config,

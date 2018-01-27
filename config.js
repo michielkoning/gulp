@@ -35,16 +35,12 @@ module.exports = {
   },
   scripts: {
     src: [
-      `${src}scripts/theme/functions.js`,
-      `${src}scripts/theme/contact.js`,
-      `${src}scripts/theme/sticky-nav.js`,
-      `${src}scripts/theme/service-worker.js`,
+      `${src}scripts/functions.js`,
+      `${src}scripts/contact.js`,
     ],
     webpackEntry: {
-      functions: `${src}scripts/theme/functions.js`,
-      contact: `${src}scripts/theme/contact.js`,
-      'sticky-nav': `${src}scripts/theme/sticky-nav.js`,
-      'service-worker': `${src}scripts/theme/service-worker.js`,
+      functions: `${src}scripts/functions.js`,
+      contact: `${src}scripts/contact.js`,
     },
     dest: `${assets}scripts`,
   },

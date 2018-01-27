@@ -19,6 +19,8 @@ Theme Name: <%= config.theme.name %>
 Theme URI: <%= config.theme.homepage %>
 Author: <%= config.theme.author.name %>
 Author URI: <%= config.theme.author.url %>
+Text Domain: <%= config.theme.textDomain %>
+Domain Path: /languages/
 Description: <%= config.theme.description %>
 Version: <%= config.theme.version %>
 License: <%= config.theme.license %>

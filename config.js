@@ -12,8 +12,6 @@ const icons = siteDetails.defaultIcons.map(function(icon) {
   return `${src}icons/defaults/${icon}.svg`;
 });
 icons.push(`${src}icons/theme/*.svg`);
-icons.push( `${src}images/logo.svg`);
-icons.push( `${src}images/logo-small.svg`);
 
 module.exports = {
   theme: siteDetails,

@@ -129,8 +129,8 @@ gulp.task('generate-manifest', function(){
 
   icons.forEach(icon => createIcon(icon));
 
-  dest = `${config.favicons.dest}manifest.json`;
 
+  dest = `${config.favicons.dest}manifest.json`;
   fs.writeFileSync(dest, JSON.stringify(manifest));
 });
 

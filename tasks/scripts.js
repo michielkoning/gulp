@@ -30,12 +30,17 @@ gulp.task('scripts', function() {
                     /node_modules/,
                     /bower_components/,
                   ],
-                  use: {
-                    loader: 'babel-loader',
-                    options: {
-                      presets: ['es2015']
+                  use: [
+                    {
+                      loader: 'babel-loader',
+                      options: {
+                        presets: ['es2015']
+                      }
+                    },
+                    {
+                      loader: 'eslint-loader',
                     }
-                  }
+                  ]
                 }
               ]
             }

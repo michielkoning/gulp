@@ -37,9 +37,9 @@ gulp.task('scripts', function() {
                         presets: ['es2015']
                       }
                     },
-                    {
-                      loader: 'eslint-loader',
-                    }
+                    // {
+                    //   loader: 'eslint-loader',
+                    // }
                   ]
                 }
               ]
